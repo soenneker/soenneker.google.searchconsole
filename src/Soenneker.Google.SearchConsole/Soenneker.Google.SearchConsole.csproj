@@ -44,7 +44,6 @@
 
     <ItemGroup>
         <PackageReference Include="Google.Apis.SearchConsole.v1" Version="1.75.0.4234" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
         <PackageReference Include="Soenneker.Google.Credentials" Version="4.0.2611" />
     </ItemGroup>
 </Project>
