@@ -45,6 +45,6 @@
 
     <ItemGroup>
         <PackageReference Include="Google.Apis.SearchConsole.v1" Version="1.75.0.4234" />
-        <PackageReference Include="Soenneker.Google.Credentials" Version="4.0.2617" />
+        <PackageReference Include="Soenneker.Google.Credentials" Version="4.0.2618" />
     </ItemGroup>
 </Project>
