@@ -10,7 +10,7 @@ namespace Soenneker.Google.SearchConsole.Tests;
 public sealed class ClientLifecycleTests
 {
     [Test]
-    public async Task Clients_are_cached_per_file_and_recreated_after_removal()
+    public async ValueTask Clients_are_cached_per_file_and_recreated_after_removal()
     {
         var credentials = new FakeCredentials();
         await using var util = new GoogleSearchConsoleUtil(credentials);
@@ -29,7 +29,7 @@ public sealed class ClientLifecycleTests
     }
 
     [Test]
-    public async Task Invalid_property_is_rejected_before_loading_credentials()
+    public async ValueTask Invalid_property_is_rejected_before_loading_credentials()
     {
         var credentials = new FakeCredentials();
         await using var util = new GoogleSearchConsoleUtil(credentials);
