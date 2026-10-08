@@ -10,32 +10,32 @@ namespace Soenneker.Google.SearchConsole.Tests;
 public sealed class ClientLifecycleTests
 {
     [Test]
-    public async ValueTask Clients_are_cached_per_file_and_recreated_after_removal()
+    public async ValueTask Clients_are_cached_per_file_and_recreated_after_removal(CancellationToken cancellationToken)
     {
         var credentials = new FakeCredentials();
         await using var util = new GoogleSearchConsoleUtil(credentials);
-        SearchConsoleService first = await util.Get("first.json");
-        SearchConsoleService cached = await util.Get("first.json");
-        SearchConsoleService second = await util.Get("second.json");
+        SearchConsoleService first = await util.Get("first.json", cancellationToken: cancellationToken);
+        SearchConsoleService cached = await util.Get("first.json", cancellationToken: cancellationToken);
+        SearchConsoleService second = await util.Get("second.json", cancellationToken: cancellationToken);
         if (!ReferenceEquals(first, cached) || ReferenceEquals(first, second) || credentials.Calls != 2)
             throw new InvalidOperationException("Clients must be cached independently by credential filename.");
         if (credentials.Scope != SearchConsoleService.Scope.Webmasters)
             throw new InvalidOperationException("Search Console requires the webmasters scope.");
-        if (!await util.Remove("first.json"))
+        if (!await util.Remove("first.json", cancellationToken: cancellationToken))
             throw new InvalidOperationException("Removal should report an existing client.");
-        SearchConsoleService recreated = await util.Get("first.json");
+        SearchConsoleService recreated = await util.Get("first.json", cancellationToken: cancellationToken);
         if (ReferenceEquals(first, recreated) || credentials.Calls != 3)
             throw new InvalidOperationException("Removal must allow a new client to be created.");
     }
 
     [Test]
-    public async ValueTask Invalid_property_is_rejected_before_loading_credentials()
+    public async ValueTask Invalid_property_is_rejected_before_loading_credentials(CancellationToken cancellationToken)
     {
         var credentials = new FakeCredentials();
         await using var util = new GoogleSearchConsoleUtil(credentials);
         try
         {
-            await util.GetSite(" ", "account.json");
+            await util.GetSite(" ", "account.json", cancellationToken: cancellationToken);
         }
         catch (ArgumentException)
         {
